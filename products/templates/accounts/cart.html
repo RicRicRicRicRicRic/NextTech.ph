@@ -1,0 +1,64 @@
+<!-- accounts/templates/accounts/cart.html -->
+{% extends 'products/base.html' %}
+
+{% block title %}{{ page_title }} - NextTech.ph{% endblock %}
+
+{% block content %}
+    <h1>{{ page_title }}</h1>
+
+    {% if cart_items %}
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div class="cart-item-info">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/80x80?text=No+Image" alt="No Image">
+                                {% endif %}
+                                <span class="cart-item-name">{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td>₱{{ item.product.price|floatformat:2 }}</td>
+                        <td>
+                            <form action="{% url 'accounts:update_cart_item' item.id %}" method="post" style="display: flex; align-items: center; gap: 5px;">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}" style="width: 60px; padding: 5px;">
+                                <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Update</button>
+                            </form>
+                        </td>
+                        <td>₱{{ item.total_price|floatformat:2 }}</td>
+                        <td>
+                            <form action="{% url 'accounts:remove_from_cart' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            Total Items: {{ cart.total_items }} <br>
+            Cart Total: <strong>₱{{ cart.total_price|floatformat:2 }}</strong>
+        </div>
+
+        <div style="text-align: right;">
+            <a href="#" class="checkout-button">Proceed to Checkout</a> {# This will be updated later #}
+        </div>
+    {% else %}
+        <p class="empty-cart-message">Your cart is empty. Start shopping <a href="{% url 'products:product_list' %}">here</a>!</p>
+    {% endif %}
+{% endblock %}
