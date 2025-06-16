@@ -30,7 +30,7 @@
                                 <span class="cart-item-name">{{ item.product.name }}</span>
                             </div>
                         </td>
-                        <td>₱{{ item.product.price|floatformat:2 }}</td>
+                        <td>${{ item.product.price|floatformat:2 }}</td>
                         <td>
                             <form action="{% url 'accounts:update_cart_item' item.id %}" method="post" style="display: flex; align-items: center; gap: 5px;">
                                 {% csrf_token %}
@@ -38,7 +38,7 @@
                                 <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Update</button>
                             </form>
                         </td>
-                        <td>₱{{ item.total_price|floatformat:2 }}</td>
+                        <td>${{ item.total_price|floatformat:2 }}</td>
                         <td>
                             <form action="{% url 'accounts:remove_from_cart' item.id %}" method="post">
                                 {% csrf_token %}
@@ -52,11 +52,11 @@
 
         <div class="cart-summary">
             Total Items: {{ cart.total_items }} <br>
-            Cart Total: <strong>₱{{ cart.total_price|floatformat:2 }}</strong>
+            Cart Total: <strong>${{ cart.total_price|floatformat:2 }}</strong>
         </div>
 
         <div style="text-align: right;">
-            <a href="#" class="checkout-button">Proceed to Checkout</a> {# This will be updated later #}
+            <a href="{% url 'accounts:checkout' %}" class="checkout-button">Proceed to Checkout</a> {# Updated link #}
         </div>
     {% else %}
         <p class="empty-cart-message">Your cart is empty. Start shopping <a href="{% url 'products:product_list' %}">here</a>!</p>

@@ -5,7 +5,8 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from products.models import Product
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Order, OrderItem
+from django.db import transaction
 
 def register_user(request):
     if request.method == 'POST':
@@ -43,6 +44,7 @@ def login_user(request):
     }
     return render(request, 'accounts/login.html', context)
 
+# View for user logout
 def logout_user(request):
     logout(request)
     messages.info(request, "You have been logged out.")
@@ -98,6 +100,7 @@ def add_to_cart(request, product_id):
         messages.error(request, "Invalid request method for adding to cart.")
         return redirect('products:product_list')
 
+# View for updating the quantity of a cart item
 @login_required
 def update_cart_item(request, item_id):
     if request.method == 'POST':
@@ -123,6 +126,7 @@ def update_cart_item(request, item_id):
         messages.error(request, "Invalid request method for updating cart item.")
         return redirect('accounts:view_cart')
 
+# View for removing an item from the cart
 @login_required
 def remove_from_cart(request, item_id):
     if request.method == 'POST':
@@ -134,3 +138,78 @@ def remove_from_cart(request, item_id):
     else:
         messages.error(request, "Invalid request method for removing item from cart.")
         return redirect('accounts:view_cart')
+
+# View for handling the checkout process
+@login_required
+def checkout(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.cartitem_set.all()
+
+    if not cart_items:
+        messages.error(request, "Your cart is empty. Please add items before checking out.")
+        return redirect('accounts:view_cart')
+
+    if request.method == 'POST':
+        shipping_address = request.POST.get('shipping_address')
+        if not shipping_address:
+            messages.error(request, "Shipping address is required.")
+            return render(request, 'accounts/checkout.html', {
+                'page_title': 'Checkout',
+                'cart': cart,
+                'cart_items': cart_items,
+                'shipping_address_default': '',
+            })
+
+        try:
+            with transaction.atomic():
+                order = Order.objects.create(
+                    user=request.user,
+                    total_amount=cart.total_price,
+                    shipping_address=shipping_address,
+                    status='Pending'
+                )
+
+                for item in cart_items:
+                    if item.quantity > item.product.stock_quantity:
+                        raise ValueError(f"Not enough stock for {item.product.name}. Only {item.product.stock_quantity} available.")
+
+                    OrderItem.objects.create(
+                        order=order,
+                        product=item.product,
+                        quantity=item.quantity,
+                        price_at_order=item.product.price
+                    )
+                    product = item.product
+                    product.stock_quantity -= item.quantity
+                    product.save()
+
+                cart.cartitem_set.all().delete()
+
+                messages.success(request, f"Your order #{order.id} has been placed successfully!")
+                return redirect('products:home')
+        except ValueError as e:
+            messages.error(request, f"Order placement failed: {e}")
+            return redirect('accounts:view_cart')
+        except Exception as e:
+            messages.error(request, f"An unexpected error occurred during checkout: {e}")
+            return redirect('accounts:view_cart')
+
+    else:
+        shipping_address_default = ""
+        context = {
+            'page_title': 'Checkout',
+            'cart': cart,
+            'cart_items': cart_items,
+            'shipping_address_default': shipping_address_default,
+        }
+        return render(request, 'accounts/checkout.html', context)
+
+@login_required 
+def user_profile(request):
+    user_orders = Order.objects.filter(user=request.user).order_by('-order_date')
+    context = {
+        'page_title': 'User Profile & Orders',
+        'user_obj': request.user, 
+        'orders': user_orders,   
+    }
+    return render(request, 'accounts/user_profile.html', context)
