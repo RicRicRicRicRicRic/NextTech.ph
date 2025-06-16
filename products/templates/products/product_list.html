@@ -20,13 +20,11 @@
         <div class="product-grid">
             {% for product in products %}
                 <div class="product-item">
-                    {# Check if an image is attached using the 'image' field #}
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}"> {# Use .url for ImageField #}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     {% else %}
                         <img src="https://via.placeholder.com/150?text=No+Image" alt="No Image Available">
                     {% endif %}
-                    {# Make the product name clickable to its detail page #}
                     <h3><a href="{% url 'products:product_detail' pk=product.pk %}">{{ product.name }}</a></h3>
                     <p class="price">₱{{ product.price|floatformat:2 }}</p>
                     <p>{{ product.description|truncatechars:100 }}</p>
@@ -38,4 +36,48 @@
     {% else %}
         <p class="no-products">No products found. Please add some in the <a href="/admin/">admin panel</a>.</p>
     {% endif %}
+
+    <style>
+        /* Styles specific to the product list page */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #fff;
+        }
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .product-item h3 {
+            margin-top: 0;
+        }
+        .product-item .price {
+            font-weight: bold;
+            color: #e44d26;
+        }
+        .no-products {
+            text-align: center;
+            padding: 50px;
+            color: #555;
+        }
+        .product-item h3 a {
+            text-decoration: none;
+            color: #333; /* Default text color */
+        }
+        .product-item h3 a:hover {
+            color: #0056b3; /* Highlight color on hover */
+            text-decoration: underline;
+        }
+    </style>
 {% endblock %}

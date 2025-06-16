@@ -30,7 +30,7 @@
                                 <span class="cart-item-name">{{ item.product.name }}</span>
                             </div>
                         </td>
-                        <td>${{ item.product.price|floatformat:2 }}</td>
+                        <td>₱{{ item.product.price|floatformat:2 }}</td>
                         <td>
                             <form action="{% url 'accounts:update_cart_item' item.id %}" method="post" style="display: flex; align-items: center; gap: 5px;">
                                 {% csrf_token %}
@@ -38,7 +38,7 @@
                                 <button type="submit" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Update</button>
                             </form>
                         </td>
-                        <td>${{ item.total_price|floatformat:2 }}</td>
+                        <td>₱{{ item.total_price|floatformat:2 }}</td>
                         <td>
                             <form action="{% url 'accounts:remove_from_cart' item.id %}" method="post">
                                 {% csrf_token %}
@@ -52,13 +52,100 @@
 
         <div class="cart-summary">
             Total Items: {{ cart.total_items }} <br>
-            Cart Total: <strong>${{ cart.total_price|floatformat:2 }}</strong>
+            Cart Total: <strong>₱{{ cart.total_price|floatformat:2 }}</strong>
         </div>
 
         <div style="text-align: right;">
-            <a href="{% url 'accounts:checkout' %}" class="checkout-button">Proceed to Checkout</a> {# Updated link #}
+            <a href="{% url 'accounts:checkout' %}" class="checkout-button">Proceed to Checkout</a>
         </div>
     {% else %}
         <p class="empty-cart-message">Your cart is empty. Start shopping <a href="{% url 'products:product_list' %}">here</a>!</p>
     {% endif %}
+
+    <style>
+        /* Styles specific to the cart page */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .cart-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .cart-table img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 4px;
+        }
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .cart-item-name {
+            font-weight: bold;
+        }
+        .cart-summary {
+            margin-top: 30px;
+            text-align: right;
+            font-size: 1.2em;
+        }
+        .cart-summary strong {
+            color: #e44d26;
+            font-size: 1.4em;
+        }
+        .checkout-button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .checkout-button:hover {
+            background-color: #218838;
+        }
+        .empty-cart-message {
+            text-align: center;
+            padding: 50px;
+            color: #555;
+            font-size: 1.1em;
+        }
+        /* Specific button styles for update/remove actions within cart table */
+        .cart-table form button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cart-table form button[type="submit"] {
+            background-color: #007bff; /* Update button */
+            color: white;
+        }
+        .cart-table form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .cart-table form button[type="submit"].remove-button { /* For clarity, if you added a class to remove button */
+            background-color: #dc3545; /* Remove button */
+        }
+        .cart-table form button[type="submit"].remove-button:hover {
+            background-color: #c82333;
+        }
+        .cart-table input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 {% endblock %}

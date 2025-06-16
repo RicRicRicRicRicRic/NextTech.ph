@@ -36,4 +36,95 @@
     {% else %}
         <p>Product not found.</p>
     {% endif %}
+
+    <style>
+        
+        /* Styles specific to the product detail page */
+        .product-detail-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            align-items: flex-start;
+        }
+        .product-detail-image {
+            flex: 1 1 300px;
+            max-width: 100%;
+            text-align: center;
+        }
+        .product-detail-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .product-detail-info {
+            flex: 2 1 400px;
+        }
+        .product-detail-info h2 {
+            color: #333;
+            margin-top: 0;
+            font-size: 2em;
+        }
+        .product-detail-info .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #e44d26;
+            margin-bottom: 15px;
+        }
+        .product-detail-info p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .product-detail-info .stock {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .product-detail-info .category {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .add-to-cart-form {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .add-to-cart-form input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .add-to-cart-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .add-to-cart-form button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
 {% endblock %}

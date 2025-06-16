@@ -21,14 +21,14 @@
                     <div class="order-card">
                         <h3>Order #{{ order.id }} <span class="order-status {{ order.status|lower }}">{{ order.status }}</span></h3>
                         <p><strong>Order Date:</strong> {{ order.order_date|date:"F d, Y H:i" }}</p>
-                        <p><strong>Total Amount:</strong> ${{ order.total_amount|floatformat:2 }}</p>
+                        <p><strong>Total Amount:</strong> ₱{{ order.total_amount|floatformat:2 }}</p>
                         <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
 
                         <h4>Items:</h4>
                         <ul class="order-items-list">
                             {% for item in order.orderitem_set.all %}
                                 <li>
-                                    {{ item.product.name }} ({{ item.quantity }} x ${{ item.price_at_order|floatformat:2 }}) = ${{ item.total_price|floatformat:2 }}
+                                    {{ item.product.name }} ({{ item.quantity }} x ₱{{ item.price_at_order|floatformat:2 }}) = ₱{{ item.total_price|floatformat:2 }}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -41,6 +41,7 @@
     </div>
 
     <style>
+        /* Styles specific to the user profile and order history page */
         .profile-container {
             background-color: white;
             padding: 30px;
@@ -80,11 +81,11 @@
             font-weight: bold;
             color: white;
         }
-        .order-status.pending { background-color: #ffc107; } 
-        .order-status.processing { background-color: #17a2b8; } 
-        .order-status.shipped { background-color: #007bff; } 
-        .order-status.delivered { background-color: #28a745; } 
-        .order-status.cancelled { background-color: #dc3545; } 
+        .order-status.pending { background-color: #ffc107; } /* Warning yellow */
+        .order-status.processing { background-color: #17a2b8; } /* Info blue */
+        .order-status.shipped { background-color: #007bff; } /* Primary blue */
+        .order-status.delivered { background-color: #28a745; } /* Success green */
+        .order-status.cancelled { background-color: #dc3545; } /* Danger red */
 
         .order-items-list {
             list-style-type: disc;
