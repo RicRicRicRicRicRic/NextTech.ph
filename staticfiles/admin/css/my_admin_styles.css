@@ -1,0 +1,168 @@
+/* my_admin_styles.css */
+
+/* General admin styling */
+body {
+    font-family: 'Inter', sans-serif; /* Example: Use Inter font if available */
+}
+
+/* Header customization */
+#header {
+    background: #007bff !important; /* Custom blue header */
+    color: white !important;
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0;
+    padding: 20px 30px;
+}
+#site-name a {
+    color: white !important;
+    font-size: 1.8em;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+#user-tools {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.95em;
+    padding: 10px 0;
+}
+#user-tools a {
+    color: white !important;
+    font-weight: bold;
+    text-decoration: underline;
+    opacity: 0.9;
+}
+#user-tools a:hover {
+    opacity: 1;
+}
+
+/* Breadcrumbs styling */
+div.breadcrumbs {
+    background: #e9ecef !important;
+    color: #333 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 15px 30px;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+div.breadcrumbs a {
+    color: #007bff !important;
+    text-decoration: none;
+}
+div.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+/* Module headers (e.g., Auth, Products) */
+.module h2, .module caption, .inline-group h2 {
+    background: #f8f9fa !important;
+    color: #0056b3 !important; /* Darker blue for headings */
+    border-bottom: 1px solid #dee2e6 !important;
+    padding: 15px 20px;
+    border-radius: 5px 5px 0 0;
+    margin-top: 20px;
+    font-size: 1.3em;
+}
+.module table {
+    border-radius: 0 0 5px 5px; /* Apply to tables below headers */
+    overflow: hidden; /* To ensure border-radius applies to corners */
+}
+
+/* Section links (e.g., 'Users', 'Groups' links on dashboard) */
+a.section {
+    color: #007bff !important; /* Blue for section links */
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+a.section:hover {
+    color: #0056b3 !important;
+}
+
+/* Button styling */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background-color: #28a745 !important; /* Green button */
+    border-color: #218838 !important;
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 8px 15px !important;
+    font-weight: bold !important;
+    transition: background-color 0.2s ease;
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+}
+.submit-row .default {
+    background-color: #007bff !important; /* Primary action button */
+    border-color: #0056b3 !important;
+}
+.submit-row .default:hover {
+    background-color: #0056b3 !important;
+    border-color: #004085 !important;
+}
+
+/* Form styling */
+.form-row {
+    padding: 12px 15px;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+}
+.form-row:nth-child(even) {
+    background-color: #fcfcfc;
+}
+.form-row label {
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    box-sizing: border-box;
+    width: 100%;
+}
+.errorlist {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Table styling in change list views */
+.results table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.results table th, .results table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+.results table th {
+    background-color: #f2f2f2;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+}
+.results table tr:last-child td {
+    border-bottom: none;
+}
+.results table tr:hover {
+    background-color: #e9f5ff; /* Light blue on hover */
+}
+
+/* Action bar */
+.actions {
+    background-color: #e6f7ff; /* Light blue for action bar */
+    border: 1px solid #b3e0ff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.actions select {
+    border-radius: 4px;
+}

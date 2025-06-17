@@ -5,3 +5,7 @@
 # How to run Django
 
 python manage.py runserver
+
+# How to update changes
+
+python manage.py collectstatic
