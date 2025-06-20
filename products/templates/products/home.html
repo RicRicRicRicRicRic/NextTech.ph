@@ -1,9 +1,80 @@
-<!-- products/templates/products/home.html -->
-{% extends 'products/base.html' %}
-
-{% block title %}{{ page_title }} - NextTech.ph{% endblock %}
-
 {% block content %}
-    <h1>{{ page_title }}</h1> {# Changed from welcome_message for consistency #}
-    <p>This is the home page of your e-commerce project. Browse our amazing products!</p>
+<div class="themed-hero">
+    <h1>{{ page_title }}</h1>
+    <p>
+        Where technology meets innovation. Experience the future with the best gadgets, accessories, and devices handpicked just for you.
+    </p>
+    <a href="{% url 'products:product_list' %}" class="cta-btn">🚀 Start Shopping</a>
+</div>
+
+<div class="sub-message">
+    <p>Explore top categories, enjoy exclusive deals, and upgrade your tech game now.</p>
+</div>
+
+<style>
+    .themed-hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #ffffff;
+        text-align: center;
+        padding: 4rem 1rem;
+        border-radius: 0 0 2rem 2rem;
+        box-shadow: 0 10px 25px rgba(0, 187, 255, 0.15);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .themed-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 8px rgba(0, 200, 255, 0.5);
+    }
+
+    .themed-hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: #e0e0e0;
+    }
+
+    .cta-btn {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        font-size: 1.05rem;
+        background-color: #ffbd59;
+        color: #000;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 189, 89, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+        background-color: #ffc107;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 193, 7, 0.6);
+    }
+
+    .sub-message {
+        text-align: center;
+        padding: 2rem 1rem;
+        font-size: 1rem;
+        color: #333;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f7fa;
+        margin-top: -2rem;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 -5px 10px rgba(0,0,0,0.05);
+    }
+
+    .sub-message p {
+        margin: 0;
+        font-weight: 500;
+    }
+</style>
 {% endblock %}
