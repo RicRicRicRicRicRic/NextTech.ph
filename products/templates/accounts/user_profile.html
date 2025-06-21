@@ -1,100 +1,137 @@
-<!-- accounts/templates/accounts/user_profile.html -->
 {% extends 'products/base.html' %}
 
 {% block title %}{{ page_title }} - NextTech.ph{% endblock %}
 
 {% block content %}
-    <h1>{{ page_title }}</h1>
+<h1 class="page-heading">{{ page_title }}</h1>
 
-    <div class="profile-container">
-        <div class="user-details">
-            <h2>Your Details</h2>
-            <p><strong>Username:</strong> {{ user_obj.username }}</p>
-            <p><strong>Email:</strong> {{ user_obj.email }}</p>
-            {# You could add more user details here if you extend the User model #}
-        </div>
-
-        <div class="order-history">
-            <h2>Your Order History</h2>
-            {% if orders %}
-                {% for order in orders %}
-                    <div class="order-card">
-                        <h3>Order #{{ order.id }} <span class="order-status {{ order.status|lower }}">{{ order.status }}</span></h3>
-                        <p><strong>Order Date:</strong> {{ order.order_date|date:"F d, Y H:i" }}</p>
-                        <p><strong>Total Amount:</strong> ₱{{ order.total_amount|floatformat:2 }}</p>
-                        <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
-
-                        <h4>Items:</h4>
-                        <ul class="order-items-list">
-                            {% for item in order.orderitem_set.all %}
-                                <li>
-                                    {{ item.product.name }} ({{ item.quantity }} x ₱{{ item.price_at_order|floatformat:2 }}) = ₱{{ item.total_price|floatformat:2 }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>You haven't placed any orders yet.</p>
-            {% endif %}
-        </div>
+<div class="profile-container">
+    <div class="user-details">
+        <h2>👤 Your Details</h2>
+        <p><strong>Username:</strong> {{ user_obj.username }}</p>
+        <p><strong>Email:</strong> {{ user_obj.email }}</p>
     </div>
 
-    <style>
-        /* Styles specific to the user profile and order history page */
-        .profile-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 900px;
-            margin: 30px auto;
-        }
-        .user-details, .order-history {
-            margin-bottom: 30px;
-        }
-        .user-details h2, .order-history h2 {
-            color: #0056b3;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        .order-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        .order-card h3 {
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .order-status {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-            font-weight: bold;
-            color: white;
-        }
-        .order-status.pending { background-color: #ffc107; } /* Warning yellow */
-        .order-status.processing { background-color: #17a2b8; } /* Info blue */
-        .order-status.shipped { background-color: #007bff; } /* Primary blue */
-        .order-status.delivered { background-color: #28a745; } /* Success green */
-        .order-status.cancelled { background-color: #dc3545; } /* Danger red */
+    <div class="order-history">
+        <h2>🧾 Your Order History</h2>
+        {% if orders %}
+            {% for order in orders %}
+                <div class="order-card">
+                    <h3>Order #{{ order.id }}
+                        <span class="order-status {{ order.status|lower }}">{{ order.status }}</span>
+                    </h3>
+                    <p><strong>Order Date:</strong> {{ order.order_date|date:"F d, Y H:i" }}</p>
+                    <p><strong>Total:</strong> ₱{{ order.total_amount|floatformat:2 }}</p>
+                    <p><strong>Shipping:</strong> {{ order.shipping_address }}</p>
 
-        .order-items-list {
-            list-style-type: disc;
-            margin-left: 20px;
-            padding: 0;
-            margin-top: 10px;
-        }
-        .order-items-list li {
-            margin-bottom: 5px;
-        }
-    </style>
+                    <h4>🛍️ Items:</h4>
+                    <ul class="order-items-list">
+                        {% for item in order.orderitem_set.all %}
+                            <li>
+                                {{ item.product.name }} ({{ item.quantity }} x ₱{{ item.price_at_order|floatformat:2 }}) = ₱{{ item.total_price|floatformat:2 }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-orders">You haven't placed any orders yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .page-heading {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #103677;
+        margin-top: 2rem;
+        text-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .profile-container {
+        max-width: 950px;
+        margin: 2.5rem auto;
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 187, 255, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .user-details, .order-history {
+        margin-bottom: 2rem;
+    }
+
+    .user-details h2,
+    .order-history h2 {
+        font-size: 1.6rem;
+        color: #103677;
+        border-left: 5px solid #4a90e2;
+        padding-left: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .user-details p,
+    .order-history p {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .order-card {
+        background-color: #f4f8fc;
+        border: 1px solid #e1ecf7;
+        border-left: 5px solid #4a90e2;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 6px 14px rgba(0, 153, 255, 0.07);
+    }
+
+    .order-card h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+        color: #103677;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+
+    .order-status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .order-status.pending { background-color: #ffc107; }
+    .order-status.processing { background-color: #17a2b8; }
+    .order-status.shipped { background-color: #007bff; }
+    .order-status.delivered { background-color: #28a745; }
+    .order-status.cancelled { background-color: #dc3545; }
+
+    .order-items-list {
+        list-style-type: disc;
+        margin-left: 1.5rem;
+        margin-top: 10px;
+        padding-left: 0;
+        font-size: 0.95rem;
+        color: #444;
+    }
+
+    .order-items-list li {
+        margin-bottom: 6px;
+    }
+
+    .no-orders {
+        text-align: center;
+        padding: 2rem 1rem;
+        color: #777;
+        font-style: italic;
+    }
+</style>
 {% endblock %}
